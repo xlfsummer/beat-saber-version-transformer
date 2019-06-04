@@ -1,39 +1,25 @@
 # beat-saber-transformer
 
-## Project setup
-```
-npm install
+1. transforme beat saber custom songs format from version 1.5 to version 2.0
+
+## file structrue in version 1.5
+
+``` yaml
+song-folder
+ - cover.jpg
+ - song.ogg
+ - info.json
+ - [difficultAndMode].json
 ```
 
-### Compiles and hot-reloads for development
-```
-npm run serve
+## file structrue in version 2.0
+
+``` yaml
+song-folder
+ - cover.png
+ - song.ogg
+ - Info.dat
+ - [difficultAndMode].dat
 ```
 
-### Compiles and minifies for production
-```
-npm run build
-```
-
-### Run your tests
-```
-npm run test
-```
-
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Run your end-to-end tests
-```
-npm run test:e2e
-```
-
-### Run your unit tests
-```
-npm run test:unit
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## `info` file difference
