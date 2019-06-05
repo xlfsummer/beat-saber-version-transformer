@@ -1,14 +1,16 @@
 <template>
-    <div>
+    <div class="container">
+        <p>
         <input class="file-selector" type="file" webkitdirectory
             @input="handleChange"
             @change="handleChange" />
-        <ul class="songInfo" v-if="songName">
-            <li>song title: {{songName}}</li>
-            <li>version: {{version}}</li>
+        </p>
+        <img :src="songCover" :alt="songName" />
+        <ul class="song-info" v-if="songName">
+            <li>《{{songName}}》</li>
+            <li>beatmap version: {{version}}</li>
         </ul>
-        {{songName}}
-        <button @click="transform">Transform</button>
+        <p> <button @click="transform">Transform</button> </p>
     </div>
 </template>
 
@@ -16,6 +18,7 @@
 import { Vue, Component } from "vue-property-decorator";
 import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0 } from "../model/common/index";
 import { readFileAsJSON } from "../utils/read-file-as-json";
+import { readFileAsBase64 } from "../utils/read-file-as-base64";
 
 @Component({
     data(){
@@ -32,6 +35,7 @@ export default class MainView extends Vue {
     files: File[] | null = null;
     songInfo: ISongInfo | null = null;
     songName: string = "";
+    songCover: string = "";
     version: string = "";
 
     constructor(){
@@ -41,7 +45,8 @@ export default class MainView extends Vue {
 
     handleChange(ev: Event){
         let input = ev.target as HTMLInputElement;
-        if(!input.files) return;
+        if(!input.files || !input.files.length) return;
+        
         this.files = Array.from(input.files);
         let infoFile = this.findInfoFile(this.files);
         this.readInfo(infoFile);
@@ -54,9 +59,13 @@ export default class MainView extends Vue {
 
         if(this.isInfo1_5(info)){
             this.songName = info.songName;
+            let coverFile: File | undefined = this.files!.find(file => file.name == (info as ISongInfoV1_5).coverImagePath);
+            if(coverFile) this.songCover = await readFileAsBase64(coverFile)
             this.version = "1.5";
         } else if(this.isInfo2_0(info)){
             this.songName = info._songName;
+            let coverFile: File | undefined = this.files!.find(file => file.name == (info as ISongInfoV2_0)._coverImageFilename);
+            if(coverFile) this.songCover = await readFileAsBase64(coverFile)
             this.version = "2.0";
         }
     }
@@ -84,6 +93,15 @@ export default class MainView extends Vue {
 </script>
 
 <style scoped>
+.container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+.song-info{
+    text-align: left;
+}
 .file-selector{
     margin: 20px auto;
 }
