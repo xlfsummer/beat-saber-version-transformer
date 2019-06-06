@@ -10,15 +10,26 @@
             <li>《{{songName}}》</li>
             <li>beatmap version: {{version}}</li>
         </ul>
-        <p> <button @click="transform">Transform</button> </p>
+        <p> <button v-if="version == '1.5.0'" @click="transform">Transform</button> </p>
     </div>
 </template>
 
 <script lang="ts">
 import { Vue, Component } from "vue-property-decorator";
-import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0 } from "../model/common/index";
+
 import { readFileAsJSON } from "../utils/read-file-as-json";
 import { readFileAsBase64 } from "../utils/read-file-as-base64";
+import { 
+    findInfoFile,
+    isValidSongInfo,
+    isInfoVersion1_5,
+    isInfoVersion2_0,
+    getSongCoverDataUrl,
+    getSongName,
+    getVersion
+} from "../lib/beatmap-format-helper";
+import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0 } from "../model/common/index";
+import transform from "../lib/transform1_5to2_0";
 
 @Component({
     data(){
@@ -43,51 +54,26 @@ export default class MainView extends Vue {
         this.handleChange = this.handleChange.bind(this);
     }
 
-    handleChange(ev: Event){
+    async handleChange(ev: Event){
         let input = ev.target as HTMLInputElement;
         if(!input.files || !input.files.length) return;
+
+        let files = this.files = Array.from(input.files);
         
-        this.files = Array.from(input.files);
-        let infoFile = this.findInfoFile(this.files);
-        this.readInfo(infoFile);
+        [
+            this.songName,
+            this.songCover,
+            this.version
+        ] = await Promise.all([
+            getSongName(files),
+            getSongCoverDataUrl(files).then(data => data || ""),
+            getVersion(files)
+        ]);
     }
 
-    async readInfo(infoFile: File){
-        let info = await readFileAsJSON(infoFile);
-
-        if(!this.isInfo(info)) return;
-
-        if(this.isInfo1_5(info)){
-            this.songName = info.songName;
-            let coverFile: File | undefined = this.files!.find(file => file.name == (info as ISongInfoV1_5).coverImagePath);
-            if(coverFile) this.songCover = await readFileAsBase64(coverFile)
-            this.version = "1.5";
-        } else if(this.isInfo2_0(info)){
-            this.songName = info._songName;
-            let coverFile: File | undefined = this.files!.find(file => file.name == (info as ISongInfoV2_0)._coverImageFilename);
-            if(coverFile) this.songCover = await readFileAsBase64(coverFile)
-            this.version = "2.0";
-        }
-    }
-
-    isInfo(info: any): info is ISongInfo{
-       return typeof info == "object" && info.songName || info._songName;
-    }
-    isInfo2_0(info: ISongInfo): info is ISongInfoV2_0{
-        return "_version" in info && info._version == "2.0.0";
-    }
-    isInfo1_5(info: ISongInfo): info is ISongInfoV1_5{
-        return "songName" in info;
-    }
-
-    findInfoFile(files: File[]){
-        let infoFile = files.find(file => /^info\./i.test(file.name));
-        if(!infoFile) { throw new Error("can't find info.dat/info.json"); }
-        return infoFile;
-    }
 
     transform(){
-
+        transform(this.files!);
     }
 }
 </script>
