@@ -78,3 +78,15 @@ export async function findBeatmapsFiles(files: File[]): Promise<File[]>{
     let beatmapFiles = files.filter(file => beatmapFilePaths.includes(file.name));
     return beatmapFiles;
 }
+
+export async function getJsonByPath(files: File[], path: string): Promise<unknown>{
+    let file = files.find(file => file.name == path);
+    if(!file) throw new Error("can't find path " + path);
+    return await readFileAsJSON(file);
+}
+
+export async function getBeatmaps(files: File[]): Promise<IBeatMap[]>{
+    let beatmapFiles = await findBeatmapsFiles(files);
+    let beatmaps = await Promise.all(beatmapFiles.map(beatmapFile => readFileAsJSON(beatmapFile)));
+    return beatmaps as IBeatMap[];
+}
