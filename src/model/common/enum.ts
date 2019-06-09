@@ -11,3 +11,9 @@ export enum CharacteristicNameEnum {
     OneSaber = "OneSaber",
     NoArrows = "NoArrows"
 }
+
+
+export enum EnvironmentEnum {
+    Default = "DefaultEnvironment",
+    Nice = "NiceEnvironment"
+}

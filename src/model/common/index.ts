@@ -6,9 +6,11 @@ import { IBeatMap as IBeatMapV2_0 } from "../v2.0/beatmap";
 export type ISongInfo = ISongInfoV1_5 | ISongInfoV2_0;
 export type IBeatMap = IBeatMapV1_5 | IBeatMapV2_0;
 
+export * from "./enum";
+
 export {
     ISongInfoV1_5,
     ISongInfoV2_0,
     IBeatMapV1_5,
-    IBeatMapV2_0
+    IBeatMapV2_0,
 }

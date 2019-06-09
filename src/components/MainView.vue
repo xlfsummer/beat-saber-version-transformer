@@ -30,6 +30,8 @@ import {
 } from "../lib/beatmap-format-helper";
 import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0 } from "../model/common/index";
 import transform from "../lib/transform1_5to2_0";
+import JSZip from "jszip";
+import { download } from "../utils/download";
 
 @Component({
     data(){
@@ -72,8 +74,14 @@ export default class MainView extends Vue {
     }
 
 
-    transform(){
-        transform(this.files!);
+    async transform(){
+        let distFiles = await transform(this.files!);
+        let zip = new JSZip();
+        distFiles.forEach(file => zip.file(file.name, file));
+        let zipFile = new File([await zip.generateAsync({
+            type: "blob"
+        })], `${this.songName}.zip`);
+        download(zipFile)
     }
 }
 </script>

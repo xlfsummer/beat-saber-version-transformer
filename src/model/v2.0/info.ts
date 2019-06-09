@@ -1,4 +1,4 @@
-import { DifficultyModeEnum, CharacteristicNameEnum } from "../common/enum";
+import { DifficultyModeEnum, CharacteristicNameEnum, EnvironmentEnum } from "../common/enum";
 
 export interface ISongInfo {
     /** @example "2.0.0" */
@@ -16,7 +16,7 @@ export interface ISongInfo {
     /** @example "song.ogg" */
     _songFilename: string
     _coverImageFilename: string
-    _environmentName: "DefaultEnvironment"
+    _environmentName: EnvironmentEnum
     _difficultyBeatmapSets: ICharacteristicBeatmap[]
 }
 

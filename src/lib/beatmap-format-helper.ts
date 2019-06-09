@@ -1,4 +1,4 @@
-import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0, IBeatMap } from "../model/common/index";
+import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0, IBeatMap, IBeatMapV1_5 } from "../model/common/index";
 import { readFileAsJSON } from "../utils/read-file-as-json";
 import { readFileAsBase64 } from "../utils/read-file-as-base64";
 
@@ -23,6 +23,11 @@ export function isInfoVersion2_0(info: ISongInfo): info is ISongInfoV2_0 {
 }
 export function isInfoVersion1_5(info: ISongInfo): info is ISongInfoV1_5 {
     return "songName" in info;
+}
+
+export function isBeatmapVersion1_5(info: unknown): info is IBeatMapV1_5{
+    if(typeof info != "object" || info == null) return false;
+    return (info as any)._version == "1.5.0"
 }
 
 export async function findCoverFile(files: File[]): Promise<File | null>{

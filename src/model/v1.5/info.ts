@@ -1,4 +1,4 @@
-import { DifficultyModeEnum } from "../common/enum";
+import { DifficultyModeEnum, EnvironmentEnum } from "../common/enum";
 
 export interface ISongInfo {
     songName: string
@@ -10,7 +10,8 @@ export interface ISongInfo {
     /** @example "cover.jpg" */
     coverImagePath: string
     oneSaber: boolean
-    difficultyLevels: ILevelInfo[]
+    difficultyLevels: ILevelInfo[],
+    environmentName?: EnvironmentEnum
 }
 
 export interface ILevelInfo {
