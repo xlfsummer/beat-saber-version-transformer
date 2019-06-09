@@ -11,6 +11,11 @@
             <li>beatmap version: {{version}}</li>
         </ul>
         <p> <button v-if="version == '1.5.0'" @click="transform">Transform</button> </p>
+        <github-button
+            href="https://github.com/xlfsummer/beat-saber-version-transformer"
+            data-size="large"
+            data-show-count="true"
+            aria-label="xlfsummer/beat-saber-version-transformer">Star</github-button>
     </div>
 </template>
 
@@ -33,7 +38,12 @@ import transform from "../lib/transform1_5to2_0";
 import JSZip from "jszip";
 import { download } from "../utils/download";
 
+import GithubButton from "vue-github-button";
+
 @Component({
+    components: {
+        GithubButton
+    },
     data(){
         return {
             files: null,
