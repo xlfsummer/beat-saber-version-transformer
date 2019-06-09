@@ -1,16 +1,29 @@
 <template>
     <div class="container">
+        <h1>Beat Saber Map Transformer</h1>
+        <p>Transform the map files from version 1.5 to 2.0.</p>
+        <p>
+        <label>Choose the song map <strong>folder</strong> (not zip file):</label>
+        </p>
         <p>
         <input class="file-selector" type="file" webkitdirectory
             @input="handleChange"
             @change="handleChange" />
         </p>
-        <img :src="songCover" :alt="songName" />
+        <img class="song-cover" :src="songCover" :alt="songName" />
         <ul class="song-info" v-if="songName">
             <li>《{{songName}}》</li>
             <li>beatmap version: {{version}}</li>
         </ul>
-        <p> <button v-if="version == '1.5.0'" @click="transform">Transform</button> </p>
+        <p v-show="version == '2.0.0'">This is a version 2.0 map, you don't need to transform this map.</p>
+        <p> <button v-if="files" :disabled="version != '1.5.0'" @click="transform">Transform &amp; Save</button> </p>
+        <p v-if="transformed">
+           Unzip the package to the beat saber custom levels folder. Then you should see it in game.<br/>
+           Folder path maybe <code>[path to steam]\Steam\steamapps\common\Beat Saber\Beat Saber_Data\CustomLevels\[song name]</code>
+        </p>
+
+
+        <p class="tip">Open an issue if you have any question or advice using this tool.</p>
         <github-button
             href="https://github.com/xlfsummer/beat-saber-version-transformer"
             data-size="large"
@@ -49,7 +62,8 @@ import GithubButton from "vue-github-button";
             files: null,
             songInfo: null,
             songName: "",
-            version: ""
+            version: "",
+            transformed: false
         }
     }
 })
@@ -60,6 +74,7 @@ export default class MainView extends Vue {
     songName: string = "";
     songCover: string = "";
     version: string = "";
+    transformed: boolean = false;
 
     constructor(){
         super()
@@ -91,7 +106,8 @@ export default class MainView extends Vue {
         let zipFile = new File([await zip.generateAsync({
             type: "blob"
         })], `${this.songName}.zip`);
-        download(zipFile)
+        download(zipFile);
+        this.transformed = true;
     }
 }
 </script>
@@ -106,7 +122,15 @@ export default class MainView extends Vue {
 .song-info{
     text-align: left;
 }
-.file-selector{
+.file-selector {
     margin: 20px auto;
+}
+.song-cover {
+
+}
+
+.tip{
+    color: #999;
+    font-size: 12px
 }
 </style>
