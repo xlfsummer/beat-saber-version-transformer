@@ -19,7 +19,7 @@ deploy:
   provider: pages
 
   # Directory to push to GitHub Pages, defaults to current directory. Can be specified as an absolute path or a relative path from the current directory.
-  local_dir: /dist
+  local_dir: dist
 
   # Make sure you have skip_cleanup set to true, otherwise Travis CI will delete all the files created during the build, which will probably delete what you are trying to upload.
   skip_cleanup: true
