@@ -2,6 +2,10 @@
 
 language: node_js
 
+# using nodejs v0.10.14 when not specified version
+node_js: 
+  - node # latest stable Node.js release
+
 # defaut install using `npm ci` / `npm install`
 
 script: 
