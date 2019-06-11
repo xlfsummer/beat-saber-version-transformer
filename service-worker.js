@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/precache-manifest.57e9e5cbf090f0e6af7565fcd64083e2.js"
+  "/precache-manifest.0b42b75123fb730604b559bbca10c77e.js"
 );
 
 workbox.core.setCacheNameDetails({prefix: "beat-saber-transformer"});
