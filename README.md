@@ -1,8 +1,8 @@
 # beat-saber-transformer
 
-1. transforme beat saber custom songs format from version 1.5 to version 2.0
+1. Transform beat saber custom song format from version 1.5 to version 2.0
 
-## file structrue in version 1.5
+## Custom song file structrue in version 1.5
 
 ``` yaml
 song-folder
@@ -12,7 +12,7 @@ song-folder
  - [difficultAndMode].json
 ```
 
-## file structrue in version 2.0
+## Custom song file structrue in version 2.0
 
 ``` yaml
 song-folder
@@ -22,4 +22,3 @@ song-folder
  - [difficultAndMode].dat
 ```
 
-## `info` file difference
