@@ -8,9 +8,4 @@ export type IBeatMap = IBeatMapV1_5 | IBeatMapV2_0;
 
 export * from "./enum";
 
-export {
-    ISongInfoV1_5,
-    ISongInfoV2_0,
-    IBeatMapV1_5,
-    IBeatMapV2_0,
-}
+export { ISongInfoV1_5, ISongInfoV2_0, IBeatMapV1_5, IBeatMapV2_0 };
