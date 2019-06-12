@@ -1,5 +1,7 @@
 # beat-saber-transformer
 
+![build](https://img.shields.io/travis/xlfsummer/beat-saber-version-transformer.svg)
+
 It can:
 1. View cover, song name and version in a beat saber custom song.
 2. Transform beat saber custom song format from version 1.5 to version 2.0.
