@@ -18,6 +18,7 @@
     <ul class="song-info" v-if="songName">
       <li>《{{ songName }}》</li>
       <li>beatmap version: {{ version }}</li>
+      <li><audio controls :src="songAudio" /></li>
     </ul>
     <p v-show="version == '2.0.0'">
       This is a version 2.0 map, you don't need to transform this map.
@@ -81,7 +82,8 @@ import GithubButton from "vue-github-button";
       songInfo: null,
       songName: "",
       version: "",
-      transformed: false
+      transformed: false,
+      songAudio: ""
     };
   }
 })
@@ -90,6 +92,7 @@ export default class MainView extends Vue {
   songInfo: ISongInfo | null = null;
   songName: string = "";
   songCover: string = "";
+  songAudio: string = "";
   version: string = "";
   transformed: boolean = false;
 
@@ -104,6 +107,9 @@ export default class MainView extends Vue {
 
     let files = (this.files = Array.from(input.files));
 
+    let songAudioFile = this.files.find(file => /\.ogg$/.test(file.name));
+    debugger;
+    songAudioFile && (this.songAudio = await readFileAsBase64(songAudioFile));
     [this.songName, this.songCover, this.version] = await Promise.all([
       getSongName(files),
       getSongCoverDataUrl(files).then(data => data || ""),
