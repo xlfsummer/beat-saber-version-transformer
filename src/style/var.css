@@ -1,0 +1,7 @@
+html{
+  --light-accent: #07bcff;
+  --accent: #29b0ff;
+  --dark-accent: #001d2f;
+
+  --shadow-backgorund: rgba(0, 0, 0, .2);
+}

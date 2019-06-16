@@ -17,12 +17,19 @@ export default class App extends Vue {}
 </script>
 
 <style>
+@import "./style/normalize.css";
+@import "./style/var.css";
 #app {
-  font-family: "Avenir", Helvetica, Arial, sans-serif;
+  display: flex;
+  flex-direction: column;
+  font-family: "Agency FB";
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
+  color: #fff;
+  background: darkblue;
+  min-height: 100vh;
+  height: 768px;
+  background: linear-gradient(to bottom, #002338, #003759);
 }
 </style>

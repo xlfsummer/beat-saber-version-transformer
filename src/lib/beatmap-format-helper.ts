@@ -7,6 +7,18 @@ import {
 } from "../model/common/index";
 import { readFileAsJSON } from "../utils/read-file-as-json";
 import { readFileAsBase64 } from "../utils/read-file-as-base64";
+import transform from "./transform1_5to2_0";
+
+/**
+ * adpat version 1.5 files to version 2.0
+ * @param files version 1.5 or 2.0 files
+ * @returns version 2.0 files
+ */
+export async function adaptSongFiles(files: File[]): Promise<File[]> {
+  let songInfo = await getSongInfo(files);
+  if (isInfoVersion2_0(songInfo)) return files;
+  else return await transform(files);
+}
 
 export function findInfoFile(files: File[]): File {
   let infoFile = files.find(file => /^info\./i.test(file.name));
@@ -51,11 +63,9 @@ export async function findCoverFile(files: File[]): Promise<File | null> {
   return coverFile;
 }
 
-export async function getSongCoverDataUrl(
-  files: File[]
-): Promise<string | null> {
+export async function getSongCoverDataUrl(files: File[]): Promise<string> {
   let coverFile = await findCoverFile(files);
-  if (!coverFile) return null;
+  if (!coverFile) return "";
   let dataUrl = await readFileAsBase64(coverFile);
   return dataUrl;
 }
@@ -112,4 +122,36 @@ export async function getBeatmaps(files: File[]): Promise<IBeatMap[]> {
     beatmapFiles.map(beatmapFile => readFileAsJSON(beatmapFile))
   );
   return beatmaps as IBeatMap[];
+}
+
+export async function getAudioDataUrl(files: File[]): Promise<string> {
+  let songInfo = (await getSongInfo(files)) as ISongInfoV2_0;
+  let songFile = files.find(files => files.name == songInfo._songFilename);
+  if (!songFile) throw new Error("Audio file not found!");
+  return await readFileAsBase64(songFile);
+}
+
+export async function getAudioTime(files: File[]): Promise<string> {
+  let songAudioUrl = await getAudioDataUrl(files);
+  let audio = new Audio();
+  document.body.append(audio);
+
+  return new Promise((resolve, reject) => {
+    audio.oncanplaythrough = () => {
+      let duration = audio.duration;
+      debugger;
+      let time = `${Math.floor(duration / 60)}:${Math.round(duration % 60)}`;
+      resolve(time);
+    };
+
+    audio.onerror = err => {
+      // new Error("Audio format unsupport");
+
+      // reject(err);
+      // console.log(songAudioUrl);
+      resolve("");
+    };
+
+    audio.src = songAudioUrl;
+  });
 }
