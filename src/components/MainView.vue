@@ -80,8 +80,9 @@ export default class MainView extends Vue {
     let input = ev.target as HTMLInputElement;
     if (!input.files || !input.files.length) return;
     let files = (this.files = Array.from(input.files));
-    let song = await Song.createFromZip(files[0]);
-    this.songs.push(song);
+    files.map(file =>
+      Song.createFromZip(file).then(song => this.songs.push(song))
+    );
   }
 
   viewDetail(song: Song) {

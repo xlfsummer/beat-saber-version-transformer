@@ -1,6 +1,7 @@
 import JSZip from "jszip";
 import * as helper from "./beatmap-format-helper";
 import { ISongInfoV2_0, IBeatMapV2_0 } from "@/model/common";
+import { getType } from "mime";
 
 export default class Song {
   cover: string;
@@ -66,13 +67,15 @@ export default class Song {
       .map(([_, zipFile]) => zipFile);
 
     let files = await Promise.all(
-      zipFiles.map(
-        async zipFile =>
-          new File(
-            [await zipFile.async("blob")],
-            zipFile.name.split("/").pop()!
-          )
-      )
+      zipFiles.map(async zipFile => {
+        let fileName = zipFile.name.split("/").pop()!;
+        let mime = getType(fileName);
+        if (mime == null) throw new Error("Unkown mime type");
+        let blob = await zipFile.async("blob");
+        return new File([blob], fileName, {
+          type: mime
+        });
+      })
     );
 
     return await this.createFromFolder(files);

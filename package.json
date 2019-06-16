@@ -11,8 +11,10 @@
   },
   "dependencies": {
     "@types/jszip": "^3.1.6",
+    "@types/mime": "^2.0.1",
     "core-js": "^2.6.5",
     "jszip": "^3.2.1",
+    "mime": "^2.4.4",
     "register-service-worker": "^1.6.2",
     "vue": "^2.6.10",
     "vue-class-component": "^7.0.2",

@@ -5,11 +5,11 @@
         <img class="song-cover" :src="song.cover" alt="" />
         <h3 class="song-name">{{ song.name }}</h3>
         <p class="song-author">{{ song.author }}</p>
-        <p class="song-attrs">
-          <!-- Time: {{ song.time }} -->
-          BPM: {{ song.bpm }}
+        <p class="song-attr-list">
+          <span class="song-attr-item">Time: {{ song.time }}</span>
+          <span class="song-attr-item">BPM: {{ song.bpm }}</span>
         </p>
-        <!-- <audio controls class="song-audio" :src="song.audio" /> -->
+        <audio controls class="song-audio" :src="song.audio" />
         <!-- <BeatButton>play</BeatButton> -->
       </div>
       <BeatButton class="action-btns" @click="transform"
@@ -88,15 +88,19 @@ export default class SongDetailView extends Vue {
   grid-area: song-cover;
 }
 .song-name {
-  margin-top: 0;
+  margin: 0 0 10px;
   grid-area: song-name;
 }
 .song-author {
   grid-area: song-author;
+  margin-bottom: 15px;
 }
-.song-attrs {
+.song-attr-list {
   grid-area: song-attrs;
-  display: flex;
+  /* display: flex; */
+}
+.song-attr-item {
+  margin: 0 5px;
 }
 .action-audio {
   grid-area: song-audio;

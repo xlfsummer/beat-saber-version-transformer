@@ -139,17 +139,12 @@ export async function getAudioTime(files: File[]): Promise<string> {
   return new Promise((resolve, reject) => {
     audio.oncanplaythrough = () => {
       let duration = audio.duration;
-      debugger;
       let time = `${Math.floor(duration / 60)}:${Math.round(duration % 60)}`;
       resolve(time);
     };
 
     audio.onerror = err => {
-      // new Error("Audio format unsupport");
-
-      // reject(err);
-      // console.log(songAudioUrl);
-      resolve("");
+      reject(err);
     };
 
     audio.src = songAudioUrl;
