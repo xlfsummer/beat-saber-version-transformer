@@ -6,8 +6,12 @@ language: node_js
 node_js: 
   - node # latest stable Node.js release
 
-# defaut install using `npm ci` / `npm install`
+# only trigger build when master branch are pushed
+branches:
+  only:
+  - master
 
+# defaut install using `npm ci` / `npm install`
 script: 
   - npm run build
 
