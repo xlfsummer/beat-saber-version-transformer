@@ -12,6 +12,7 @@ branches:
   - master
 
 # defaut install using `npm ci` / `npm install`
+
 script: 
   - npm run build
 
@@ -35,6 +36,5 @@ deploy:
   keep_history: true
 
   # target_branch: defaults to gh-pages
-
   on:
     branch: master

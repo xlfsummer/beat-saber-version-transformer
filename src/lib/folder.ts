@@ -3,7 +3,7 @@ export default class Folder {
   children: (File | Folder)[] = [];
 
   constructor(name: string) {
-    if (!name) debugger;
+    if(!name) throw new TypeError("Name can't be empty when creating a folder");
     this.name = name;
   }
 
