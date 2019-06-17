@@ -9,7 +9,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Song from "../lib/Song";
+import Song from "../lib/song";
 
 @Component
 export default class SongListItem extends Vue {
@@ -21,7 +21,7 @@ export default class SongListItem extends Vue {
 .song-item {
   display: grid;
   height: 60px;
-  margin-top: 2px;
+  margin-bottom: 2px;
   background: var(--shadow-backgorund);
   align-items: center;
   justify-items: start;

@@ -24,6 +24,10 @@ export default {
 </script>
 
 <style scoped>
+footer {
+  height: 46px;
+  margin: 10px 0;
+}
 .tip {
   color: #999;
   font-size: 12px;

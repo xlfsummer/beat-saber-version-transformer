@@ -25,7 +25,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Song from "../lib/Song";
+import Song from "../lib/song";
 import JSZip from "jszip";
 import { download } from "../utils/download";
 

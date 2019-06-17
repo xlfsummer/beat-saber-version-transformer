@@ -30,7 +30,7 @@ import { ISongInfo, ISongInfoV1_5, ISongInfoV2_0 } from "../model/common/index";
 import transform from "../lib/transform1_5to2_0";
 import JSZip from "jszip";
 import { download } from "../utils/download";
-import Song from "../lib/Song";
+import Song from "../lib/song";
 
 import AppHeader from "./AppHeader.vue";
 import SongChooser from "./SongChooser.vue";

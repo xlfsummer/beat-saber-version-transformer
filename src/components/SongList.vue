@@ -15,7 +15,7 @@
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
-import Song from "../lib/Song";
+import Song from "../lib/song";
 import SongListItem from "./SongListItem.vue";
 
 @Component({
@@ -43,11 +43,13 @@ export default class SongListVue extends Vue {
 
 <style scoped>
 .song-list {
+  margin-top: 2px;
   height: 306px;
   width: 400px;
   display: flex;
   flex-direction: column;
   align-items: stretch;
+  overflow-y: auto;
 }
 .song-item {
   flex: none;

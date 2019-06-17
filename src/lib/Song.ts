@@ -1,7 +1,6 @@
-import JSZip from "jszip";
 import * as helper from "./beatmap-format-helper";
 import { ISongInfoV2_0, IBeatMapV2_0 } from "@/model/common";
-import { getType } from "mime";
+import { findSongFilesInZip } from "./beatmap-file-helper";
 
 export default class Song {
   cover: string;
@@ -49,35 +48,7 @@ export default class Song {
   }
 
   static async createFromZip(zip: File) {
-    let jsZip = await JSZip.loadAsync(zip);
-
-    let findDirResult = Object.entries(jsZip.files).find(
-      ([key, zipFile]) => zipFile.dir
-    );
-    if (!findDirResult) throw new Error("Zip file should contain a folder!");
-
-    let dir = findDirResult[1];
-    const DIRECT_FILE_IN_FOLDER_REG = new RegExp("^" + dir.name + "[^/]+$");
-
-    let zipFiles = Object.entries(jsZip.files)
-      .filter(
-        ([filePath, zipFile]) =>
-          DIRECT_FILE_IN_FOLDER_REG.test(filePath) && !zipFile.dir
-      )
-      .map(([_, zipFile]) => zipFile);
-
-    let files = await Promise.all(
-      zipFiles.map(async zipFile => {
-        let fileName = zipFile.name.split("/").pop()!;
-        let mime = getType(fileName);
-        if (mime == null) throw new Error("Unkown mime type");
-        let blob = await zipFile.async("blob");
-        return new File([blob], fileName, {
-          type: mime
-        });
-      })
-    );
-
+    let files = await findSongFilesInZip(zip);
     return await this.createFromFolder(files);
   }
   static async createFromFolder(files: File[]) {

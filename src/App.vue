@@ -29,7 +29,7 @@ export default class App extends Vue {}
   color: #fff;
   background: darkblue;
   min-height: 100vh;
-  height: 768px;
+  height: 660px;
   background: linear-gradient(to bottom, #002338, #003759);
 }
 </style>
