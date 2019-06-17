@@ -8,19 +8,7 @@
       </div>
       <song-detail-view class="detail" :song="detailSong" />
     </main>
-
-    <footer class="footer">
-      <p class="tip">
-        Open an issue if you have any question or advice using this tool.
-      </p>
-      <github-button
-        href="https://github.com/xlfsummer/beat-saber-version-transformer"
-        data-size="large"
-        data-show-count="true"
-        aria-label="xlfsummer/beat-saber-version-transformer"
-        >Star</github-button
-      >
-    </footer>
+    <app-footer class="footer" />
   </div>
 </template>
 
@@ -48,7 +36,7 @@ import AppHeader from "./AppHeader.vue";
 import SongChooser from "./SongChooser.vue";
 import SongList from "./SongList.vue";
 import SongDetailView from "./SongDetailView.vue";
-import GithubButton from "vue-github-button";
+import AppFooter from "./AppFooter.vue";
 
 @Component({
   components: {
@@ -56,7 +44,7 @@ import GithubButton from "vue-github-button";
     SongChooser,
     SongList,
     SongDetailView,
-    GithubButton
+    AppFooter
   },
   data() {
     return {
@@ -133,10 +121,5 @@ export default class MainView extends Vue {
 }
 .detail {
   grid-area: detail;
-}
-
-.tip {
-  color: #999;
-  font-size: 12px;
 }
 </style>
