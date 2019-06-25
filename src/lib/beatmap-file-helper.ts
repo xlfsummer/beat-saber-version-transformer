@@ -13,7 +13,10 @@ export async function findSongFilesInZip(zip: File) {
 
 async function zipObjToFile(zipFile: JSZip.JSZipObject) {
   let fileName = zipFile.name.split("/").pop()!;
-  let mime = getType(fileName);
+
+  let mimeCompatableFileName = fileName.replace(/\.egg$/, ".ogg");
+
+  let mime = getType(mimeCompatableFileName);
   let blob = await zipFile.async("blob");
   return new File([blob], fileName, { ...(mime && { type: mime }) });
 }
