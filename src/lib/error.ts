@@ -18,5 +18,7 @@ export default class ErrorHandler {
     if (err instanceof Error) {
       window.prompt(promptTip, err.message + " strack:" + err.stack);
     }
+
+    console.error(err);
   }
 }
