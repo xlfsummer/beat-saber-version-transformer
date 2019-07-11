@@ -23,3 +23,20 @@
 //
 // -- This is will overwrite an existing command --
 // Cypress.Commands.overwrite("visit", (originalFn, url, options) => { ... })
+
+//fileName = midnightCity.zip
+Cypress.Commands.add("chooseSong", fileName => {
+  cy.get("input.file-selector").then(el => {
+    cy.fixture(fileName)
+      .then(Cypress.Blob.base64StringToBlob)
+      .then(blob => new File([blob], fileName))
+      .then(zipFile => {
+        /** @type {HTMLInputElement} */
+        let input = el[0];
+        let dt = new DataTransfer();
+        dt.items.add(zipFile);
+        input.files = dt.files;
+        input.dispatchEvent(new Event("change", { bubbles: true }));
+      });
+  });
+});
