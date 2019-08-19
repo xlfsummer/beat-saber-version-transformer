@@ -16,6 +16,7 @@
       @click="transformAll"
       >transform all</BeatButton
     >
+    <BeatModal :isShow="isShowLoading">Proccessing...</BeatModal>
   </ul>
 </template>
 
@@ -26,11 +27,13 @@ import JSZip from "jszip";
 import { download } from "../utils/download";
 import SongListItem from "./SongListItem.vue";
 import BeatButton from "./common/BeatButton.vue";
+import BeatModal from "./common/BeatModal.vue";
 
 @Component({
   components: {
     SongListItem,
-    BeatButton
+    BeatButton,
+    BeatModal
   },
   props: {
     songs: {
@@ -42,6 +45,8 @@ import BeatButton from "./common/BeatButton.vue";
 export default class SongListVue extends Vue {
   @Prop() readonly songs!: Song[];
 
+  isShowLoading: boolean = false;
+
   handleSelect(index: number) {
     let song = this.songs[index];
     if (song) return this.$emit("select", song);
@@ -50,16 +55,22 @@ export default class SongListVue extends Vue {
   }
 
   async transformAll() {
-    let zip = new JSZip();
-    this.songs.forEach(song => {
-      let wrapFolder = zip.folder(song.name);
-      song.files.forEach(file => wrapFolder.file(file.name, file));
-    });
-    let zipFile = new File(
-      [await zip.generateAsync({ type: "blob" })],
-      `${this.songs.length}songs.zip`
-    );
-    download(zipFile);
+    this.isShowLoading = true;
+    try {
+      let zip = new JSZip();
+      this.songs.forEach(song => {
+        let wrapFolder = zip.folder(song.name);
+        song.files.forEach(file => wrapFolder.file(file.name, file));
+      });
+      let zipFile = new File(
+        [await zip.generateAsync({ type: "blob" })],
+        `${this.songs[0].name} and other ${this.songs.length} songs.zip`
+      );
+      this.isShowLoading = false;
+      download(zipFile);
+    } finally {
+      this.isShowLoading = false;
+    }
   }
 }
 </script>

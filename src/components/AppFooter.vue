@@ -31,5 +31,6 @@ footer {
 .tip {
   color: #999;
   font-size: 12px;
+  margin-bottom: 5px;
 }
 </style>
