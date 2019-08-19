@@ -10,17 +10,27 @@
       :song="song"
       @click="handleSelect(index)"
     />
+    <BeatButton
+      class="song-list-button"
+      v-if="songs.length"
+      @click="transformAll"
+      >transform all</BeatButton
+    >
   </ul>
 </template>
 
 <script lang="ts">
 import { Vue, Component, Prop } from "vue-property-decorator";
 import Song from "../lib/song";
+import JSZip from "jszip";
+import { download } from "../utils/download";
 import SongListItem from "./SongListItem.vue";
+import BeatButton from "./common/BeatButton.vue";
 
 @Component({
   components: {
-    SongListItem
+    SongListItem,
+    BeatButton
   },
   props: {
     songs: {
@@ -37,6 +47,19 @@ export default class SongListVue extends Vue {
     if (song) return this.$emit("select", song);
 
     throw new Error("Song of index not Exist.");
+  }
+
+  async transformAll() {
+    let zip = new JSZip();
+    this.songs.forEach(song => {
+      let wrapFolder = zip.folder(song.name);
+      song.files.forEach(file => wrapFolder.file(file.name, file));
+    });
+    let zipFile = new File(
+      [await zip.generateAsync({ type: "blob" })],
+      `${this.songs.length}songs.zip`
+    );
+    download(zipFile);
   }
 }
 </script>
@@ -61,5 +84,8 @@ export default class SongListVue extends Vue {
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
+}
+.song-list-button {
+  margin-top: 10px;
 }
 </style>

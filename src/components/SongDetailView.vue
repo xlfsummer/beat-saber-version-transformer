@@ -49,11 +49,7 @@ export default class SongDetailView extends Vue {
     let wrapFolder = zip.folder(this.song.name);
     this.song.files.forEach(file => wrapFolder.file(file.name, file));
     let zipFile = new File(
-      [
-        await zip.generateAsync({
-          type: "blob"
-        })
-      ],
+      [await zip.generateAsync({ type: "blob" })],
       `${this.song.name}.zip`
     );
     download(zipFile);

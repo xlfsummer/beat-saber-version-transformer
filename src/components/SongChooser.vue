@@ -1,7 +1,13 @@
 <template>
   <div class="song-chooser">
     📁choose songs
-    <input multiple class="file-selector" type="file" @change="handleChange" accept=".zip"/>
+    <input
+      multiple
+      class="file-selector"
+      type="file"
+      @change="handleChange"
+      accept=".zip"
+    />
   </div>
 </template>
 

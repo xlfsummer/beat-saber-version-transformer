@@ -32,4 +32,14 @@ export default class App extends Vue {}
   height: 660px;
   background: linear-gradient(to bottom, #002338, #003759);
 }
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  height: 50px;
+  background: #fff3;
+}
 </style>
