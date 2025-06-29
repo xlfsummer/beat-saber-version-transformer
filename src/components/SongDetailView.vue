@@ -28,7 +28,6 @@ import { Vue, Component, Prop } from "vue-property-decorator";
 import Song from "../lib/song";
 import JSZip from "jszip";
 import { download } from "../utils/download";
-
 import BeatButton from "../components/common/BeatButton.vue";
 
 @Component({
@@ -47,7 +46,12 @@ export default class SongDetailView extends Vue {
   async transform() {
     let zip = new JSZip();
     let wrapFolder = zip.folder(this.song.name);
-    this.song.files.forEach(file => wrapFolder.file(file.name, file));
+    this.song.files.forEach(file => {
+      if (!wrapFolder) {
+        throw new Error("Wrap folder not exist.");
+      }
+      return wrapFolder.file(file.name, file);
+    });
     let zipFile = new File(
       [await zip.generateAsync({ type: "blob" })],
       `${this.song.name}.zip`

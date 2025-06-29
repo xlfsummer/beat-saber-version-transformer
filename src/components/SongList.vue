@@ -60,7 +60,12 @@ export default class SongListVue extends Vue {
       let zip = new JSZip();
       this.songs.forEach(song => {
         let wrapFolder = zip.folder(song.name);
-        song.files.forEach(file => wrapFolder.file(file.name, file));
+        song.files.forEach(file => {
+          if (!wrapFolder) {
+            throw new Error("Wrap folder not exist.");
+          }
+          return wrapFolder.file(file.name, file);
+        });
       });
       let zipFile = new File(
         [await zip.generateAsync({ type: "blob" })],
