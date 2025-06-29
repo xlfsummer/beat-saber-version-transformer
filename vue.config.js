@@ -1,5 +1,7 @@
 module.exports = {
+  /** @param {import('webpack-chain')} config */
   chainWebpack: config => {
+
     if (process.env.NODE_ENV == "production") return;
     config.module
       .rule("eslint")
